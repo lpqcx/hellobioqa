@@ -6,7 +6,7 @@ persistence-provider:
   inherit: helloqa.db.local-persistence-provider
 
 collection-reader:
-  inherit: helloqa.collection.decorated-collection-reader
+  inherit: hellobioqa.collection.decorated-collection-reader
   dataset: TRECGEN06
   file: /input/trecgen06.txt
 
