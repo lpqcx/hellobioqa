@@ -49,16 +49,15 @@ public class SimpleBioPassageExtractor extends SimplePassageExtractor {
 			System.out.println( "RetrievalResult: " + document.toString() );
 			String id = document.getDocID();
       try {
-        // @Alkesh: can you add this call to the SolrWrapper API? - Now work with solr-provider 1.0.5-SNAPSHOT
         String htmlText = wrapper.getDocText( id );
+        
         //cleaning HTML text
-        String text = Jsoup.parse(htmlText).text().replaceAll("([\170-\377\0-\32]*)","")/*.trim()*/;
+        String text = Jsoup.parse(htmlText).text().replaceAll("([\177-\377\0-\32]*)","")/*.trim()*/;
         //for now, making sure the text isn't too long
         text = text.substring(0, Math.min(5000, text.length()));
-        //System.out.println(text);
+        System.out.println(text);
         
         PassageCandidateFinder finder = new PassageCandidateFinder( id , text , new KeytermWindowScorerSum() );
-        // @EHN: to avoid ClassCastException: [Ljava.lang.Object; cannot be cast to [Ljava.lang.String;
         List<String> keytermStrings = Lists.transform(keyterms, new Function<Keyterm, String>() {
           public String apply(Keyterm keyterm) { return keyterm.getText(); }
         });
