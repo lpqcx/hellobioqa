@@ -11,6 +11,7 @@ import edu.cmu.lti.oaqa.openqa.hello.retrieval.SimpleSolrRetrievalStrategist;
 
 public class SimpleBioSolrRetrievalStrategist extends SimpleSolrRetrievalStrategist {
 
+  @Override
   protected List<RetrievalResult> retrieveDocuments(String query) {
     List<RetrievalResult> result = new ArrayList<RetrievalResult>();
     try {

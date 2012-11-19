@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.uima.UimaContext;
+import org.apache.uima.resource.ResourceInitializationException;
 import org.jsoup.Jsoup;
 
 import com.google.common.base.Function;
@@ -17,6 +19,19 @@ import edu.cmu.lti.oaqa.openqa.hello.passage.PassageCandidateFinder;
 import edu.cmu.lti.oaqa.openqa.hello.passage.SimplePassageExtractor;
 
 public class SimpleBioPassageExtractor extends SimplePassageExtractor {
+
+  protected Integer hitListSize;
+
+  @Override
+  public void initialize(UimaContext aContext) throws ResourceInitializationException {
+    super.initialize(aContext);
+    try {
+      this.hitListSize = (Integer) aContext.getConfigParameterValue("hit-list-size");
+    } catch (ClassCastException e) { // all cross-opts are strings?
+      this.hitListSize = Integer.parseInt((String) aContext
+              .getConfigParameterValue("hit-list-size"));
+    }
+  }
 
   @Override
   protected List<PassageCandidate> extractPassages(String question, List<Keyterm> keyterms,
@@ -49,7 +64,7 @@ public class SimpleBioPassageExtractor extends SimplePassageExtractor {
         e.printStackTrace();
       }
     }
+//    return result.subList(0, Math.min(result.size(), hitListSize));
     return result;
   }
-
 }
